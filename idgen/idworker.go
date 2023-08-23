@@ -21,9 +21,6 @@ const (
 	CEpoch        = 1577808000
 	CWorkerIDBits = 5  // Num of WorkerID Bits
 	CSequenceBits = 16 // Num of Sequence Bits
-
-	CWorkerIDShift  = 16
-	CTimeStampShift = 21
 )
 
 // IDWorker Struct
@@ -100,6 +97,6 @@ func (iw *IDWorker) NextID() (ts int64, err error) {
 	}
 
 	iw.lastTimeStamp = ts
-	ts = (ts-CEpoch)<<CTimeStampShift | iw.workerID<<CWorkerIDShift | iw.sequence
+	ts = (ts-CEpoch)<<CWorkerIDBits + CSequenceBits | iw.workerID<<CSequenceBits | iw.sequence
 	return ts, nil
 }
